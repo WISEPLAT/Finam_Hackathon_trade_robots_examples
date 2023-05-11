@@ -1,0 +1,297 @@
+﻿<Window x:Class="OrderBookScreener.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OrderBookScreener"
+        mc:Ignorable="d"
+        Title="Скринер стакана" MinHeight="400" Height="850" MinWidth="600" Width="1200"
+        WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <local:MainVM/>
+    </Window.DataContext>
+    <Window.Resources>
+        <Image x:Key="imgRemove" Source="Images/remove.png" Width="10" Height="10"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <GroupBox Grid.Column="0" Header="Деньги">
+                <ListView ItemsSource="{Binding Path=Moneys}" BorderThickness="0" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Валюта">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Currency}" MinWidth="50" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Баланс">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Balance}" TextAlignment="Right" MinWidth="100" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </GroupBox>
+            <GroupBox Grid.Column="1" Header="Позиции">
+                <ListView ItemsSource="{Binding Path=Positions}" BorderThickness="0" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Инструмент">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Symbol}" MinWidth="100" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Позиция">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Balance}" TextAlignment="Right" MinWidth="50" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Прибыль">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Profit}" TextAlignment="Right" MinWidth="50" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </GroupBox>
+            <GroupBox Grid.Column="2" Header="Заявки">
+                <ListView x:Name="PART_ListViewOrders" ItemsSource="{Binding Path=ViewOrders.View}" BorderThickness="0">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Время">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Date, StringFormat=HH:mm}" MinWidth="50" TextAlignment="Center" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Инструмент">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Symbol}" MinWidth="100" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Статус">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Status}" MinWidth="50" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Операция">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Side}" MinWidth="50" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Цена">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Price}" TextAlignment="Right" MinWidth="50" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Кол-во">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Quantity}" TextAlignment="Right" MinWidth="50" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Остаток">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=RestQuantity}" TextAlignment="Right" MinWidth="50" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="40">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="OnCancelOrder" CommandParameter="{Binding}" 
+                                                Content="{StaticResource imgRemove}"
+                                                BorderThickness="0" Background="White" Cursor="Hand" ToolTip="Отменить">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Status}" Value="Active">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Foreground" Value="Gray"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Status}" Value="Active">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </GroupBox>
+        </Grid>
+
+        <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                      Background="DarkGray"/>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <GroupBox Grid.Row="0" Header="Фильтр">
+                    <StackPanel Orientation="Vertical">
+                        <ItemsControl ItemsSource="{Binding FiltersBoard}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" Margin="2" Click="UpdateFilter" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <StackPanel Orientation="Horizontal">
+                            <Label>Инструмент:</Label>
+                            <TextBox Text="{Binding FilterSecCode, UpdateSourceTrigger=PropertyChanged}" 
+                                     Width="150" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <DataGrid x:Name="PART_OrderBooks" Grid.Row="1" 
+                          ItemsSource="{Binding Path=ViewOrderBooks.View}" 
+                          SelectedValue="{Binding SelectedOrderBook, Mode=OneWayToSource}"
+                          AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Инструмент" Binding="{Binding Path=SecCode}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Площадка" Binding="{Binding Path=SecBoard}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Спрос" Binding="{Binding Path=BestBid}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Предл" Binding="{Binding Path=BestAsk}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Спред %" Binding="{Binding Path=SpreadPrc}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Большая заявка" Binding="{Binding Path=BigQty}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Объем, контрактов" Binding="{Binding Path=Voltoday, StringFormat=N0}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Объем, руб" Binding="{Binding Path=Valtoday, StringFormat=N0}" IsReadOnly="True">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="ToolTip" Value="Данные с мосбиржи, с задержкой"/>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Content="{Binding SelectedOrderBook.SecCode}" 
+                       BorderBrush="Gray" BorderThickness="1"
+                       Padding="1" HorizontalContentAlignment="Center" Background="LightBlue" MinHeight="22"/>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <local:OrderBookControl Grid.Column="0" Width="250" 
+                                            BorderBrush="DarkGray" BorderThickness="1"
+                                            ItemSource="{Binding ElementName=PART_OrderBooks, Path=SelectedValue.Rows}"
+                                            ItemClick="OnOrderBookRowClick"/>
+
+                    <Border Grid.Column="1" BorderBrush="DarkGray" BorderThickness="1">
+                        <GroupBox Header="Выставить заявку">
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Grid.Row="0" Grid.Column="0" Content="Цена: "/>
+                                    <TextBox Name="txtPrice" Grid.Row="0" Grid.Column="1" Width="100" 
+                                         VerticalAlignment="Center" PreviewTextInput="OnPreviewTextInput"/>
+
+                                    <Label Grid.Row="1" Grid.Column="0" Content="Кол-во: "/>
+                                    <TextBox Name="txtQuantity" Grid.Row="1" Grid.Column="1" Width="100"
+                                         VerticalAlignment="Center" PreviewTextInput="OnPreviewTextInput"/>
+                                </Grid>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button Grid.Column="0" x:Name="btnBuy" Click="OnSendOrder" Content="Купить" Background="LightGreen" Margin="4"/>
+                                    <Button Grid.Column="1" x:Name="btnSell" Click="OnSendOrder" Content="Продать" Background="PaleVioletRed" Margin="4"/>
+                                </Grid>
+                            </StackPanel>
+                        </GroupBox>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <GridSplitter Grid.Row="3" Height="2" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                      Background="DarkGray"/>
+
+        <ScrollViewer Grid.Row="4" x:Name="PART_LogScroll">
+            <TextBlock x:Name="PART_Log" Padding="2" />
+        </ScrollViewer>
+    </Grid>
+</Window>

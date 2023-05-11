@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="OrderBookScreener.OrderBookControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DataGrid x:Name="PART_Grid" AutoGenerateColumns="False" BorderThickness="0">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Покупка" Binding="{Binding Path=QuantityBid}" CanUserSort="False" IsReadOnly="True" Width="*" />
+            <DataGridTextColumn Header="Цена" Binding="{Binding Path=Price}" CanUserSort="False" IsReadOnly="True" Width="*"/>
+            <DataGridTextColumn Header="Продажа" Binding="{Binding Path=QuantitySell}" CanUserSort="False" IsReadOnly="True" Width="*"/>
+        </DataGrid.Columns>
+        <DataGrid.CellStyle>
+            <Style TargetType="DataGridCell">
+                <Setter Property="BorderThickness" Value="0" />
+                <EventSetter Event="PreviewMouseDown" Handler="OnClickCell"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=IsBid}" Value="True">
+                        <Setter Property="Background" Value="LightGreen" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=IsBid}" Value="False">
+                        <Setter Property="Background" Value="PaleVioletRed" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </DataGrid.CellStyle>
+    </DataGrid>
+</UserControl>

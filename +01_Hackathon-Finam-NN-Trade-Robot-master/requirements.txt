@@ -1,0 +1,6 @@
+aiohttp
+aiomoex
+pandas
+matplotlib
+tensorflow
+finam-trade-api
