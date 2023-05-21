@@ -1,0 +1,39 @@
+body {
+  background-color: black;
+}
+.App {
+  text-align: center;
+}
+
+.divApp {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0;
+  width: 100%;
+}
+
+.myFlex {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+}
+
+.myFlexCenter {
+  display: flex;
+  /* justify-content: space-evenly; */
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.myFlexInline {
+  display: inline-flex;
+  /* justify-content: space-evenly; */
+}
+
+.myFlexInline * {
+  margin: 5px;
+}

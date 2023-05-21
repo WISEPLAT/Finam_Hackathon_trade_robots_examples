@@ -1,0 +1,14 @@
+[
+	{
+		"Arr": ["TQBR:ALRS", "TQBR:GAZP", "TQBR:GMKN", "TQBR:LKOH", "TQBR:VTBR", "TQTF:LQDT"],
+		"Time": 900
+	},
+	{
+		"Arr": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+		"Time": 1050
+	},
+	{
+		"Arr": ["Buy", "Sell"],
+		"Time": 1200
+	}
+]

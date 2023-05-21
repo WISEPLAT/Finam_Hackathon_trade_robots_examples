@@ -1,0 +1,84 @@
+.info-bar {
+  color: white;
+  text-align: center;
+}
+
+.settings {
+  /* margin-top: 5px;
+  margin-right: 15px;
+  display: flex;
+  justify-content: flex-end; */
+}
+.settings-btn {
+  background-color: #ffffff;
+  margin-left: 5px;
+  width: 30px;
+  height: 30px;
+  background-repeat: no-repeat;
+  border: 0;
+  outline: 0;
+  opacity: 0.8;
+  cursor: pointer;
+  /* transition: 0.3s; */
+}
+
+.sound-on {
+  background-image: url(/public/images/vol.svg);
+}
+
+.sound-off {
+  background-image: url(/public/images/mute.svg);
+}
+
+h3 {
+  align-items: center;
+}
+
+.rotated {
+  animation: rotation 2s infinite linear;
+  /* transform: rotate(180deg); */
+  /* background-color: gold; */
+  filter: invert(92%) sepia(90%) saturate(802%) hue-rotate(359deg)
+    brightness(102%) contrast(103%);
+}
+
+.minImg {
+  width: 5%;
+}
+
+input {
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+  text-align: center;
+  width: 90px;
+}
+
+.info-bar > .btn button {
+  padding: 25px;
+  margin: 20px;
+}
+
+.info-msg p {
+  margin: 0;
+}
+
+.positions-table {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+}
+
+th, td {
+  padding: 5px;
+  border: 1px solid white;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
